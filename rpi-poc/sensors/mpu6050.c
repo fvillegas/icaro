@@ -123,3 +123,35 @@ void mpu6050_initialize()
     mpu6050_set_full_scale_accel_range(MPU6050_ACCEL_FS_2);
     mpu6050_set_sleep_enabled(false); // thanks to Jack Elston for pointing this one out!
 }
+
+/**
+ * Get raw 6-axis motion sensor readings (accel/gyro).
+ * 
+ * Retrieves all currently available motion sensor values.
+ * @param ax 16-bit signed integer container for accelerometer X-axis value
+ * @param ay 16-bit signed integer container for accelerometer Y-axis value
+ * @param az 16-bit signed integer container for accelerometer Z-axis value
+ * @param gx 16-bit signed integer container for gyroscope X-axis value
+ * @param gy 16-bit signed integer container for gyroscope Y-axis value
+ * @param gz 16-bit signed integer container for gyroscope Z-axis value
+ * @see getAcceleration()
+ * @see getRotation()
+ * @see MPU6050_ACCEL_XOUT_H
+ */
+void get_motion_6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz) {
+    uint8_t buffer[14];
+
+    read_bytes(
+        MPU6050_ADDRESS,
+        MPU6050_ACCEL_XOUT_H,
+        14,
+        buffer
+    );
+
+    *ax = (((int16_t) buffer[0]) << 8) | buffer[1];
+    *ay = (((int16_t) buffer[2]) << 8) | buffer[3];
+    *az = (((int16_t) buffer[4]) << 8) | buffer[5];
+    *gx = (((int16_t) buffer[8]) << 8) | buffer[9];
+    *gy = (((int16_t) buffer[10]) << 8) | buffer[11];
+    *gz = (((int16_t) buffer[12]) << 8) | buffer[13];
+}
