@@ -108,6 +108,47 @@ void mpu6050_set_sleep_enabled(bool enabled)
 }
 
 /**
+ * Set I2C Master Mode enabled status.
+ * 
+ * @param enabled New I2C Master Mode enabled status
+ * 
+ * @see MPU6050_USER_CTRL
+ * @see MPU6050_USER_CTRL_I2C_MST_EN_BIT
+ */
+void mput6050_set_I2C_master_mode_enabled(bool enabled) {
+    write_bit(
+        MPU6050_ADDRESS,
+        MPU6050_USER_CTRL,
+        MPU6050_USER_CTRL_I2C_MST_EN_BIT,
+        enabled
+    );
+}
+
+/**
+ * Set I2C bypass enabled status.
+ * 
+ * When this bit is equal to 1 and I2C_MST_EN (Register 106 bit[5]) is equal to
+ * 0, the host application processor will be able to directly access the
+ * auxiliary I2C bus of the MPU-60X0. When this bit is equal to 0, the host
+ * application processor will not be able to directly access the auxiliary I2C
+ * bus of the MPU-60X0 regardless of the state of I2C_MST_EN (Register 106
+ * bit[5]).
+ * 
+ * @param enabled New I2C bypass enabled status
+ * 
+ * @see MPU6050_INT_PIN_CFG
+ * @see MPU6050_INT_PIN_CFG_I2C_BYPASS_EN_BIT
+ */
+void mpu6050_set_I2C_bypass_enabled(bool enabled) {
+    write_bit(
+        MPU6050_ADDRESS,
+        MPU6050_INT_PIN_CFG,
+        MPU6050_INT_PIN_CFG_I2C_BYPASS_EN_BIT,
+        enabled
+    );
+}
+
+/**
  * Power on and prepare for general usage.
  * 
  * This will activate the device and take it out of sleep mode (which must be done
@@ -118,10 +159,12 @@ void mpu6050_set_sleep_enabled(bool enabled)
  */
 void mpu6050_initialize()
 {
+    mput6050_set_I2C_master_mode_enabled(false);
+    mpu6050_set_I2C_bypass_enabled(true);
     mpu6050_set_clock_source(MPU6050_CLOCK_PLL_XGYRO);
     mpu6050_set_full_scale_gyro_range(MPU6050_GYRO_FS_250);
     mpu6050_set_full_scale_accel_range(MPU6050_ACCEL_FS_2);
-    mpu6050_set_sleep_enabled(false); // thanks to Jack Elston for pointing this one out!
+    mpu6050_set_sleep_enabled(false);
 }
 
 /**
@@ -138,7 +181,7 @@ void mpu6050_initialize()
  * @see getRotation()
  * @see MPU6050_ACCEL_XOUT_H
  */
-void get_motion_6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz) {
+void mpu6050_get_motion_6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz) {
     uint8_t buffer[14];
 
     read_bytes(

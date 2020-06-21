@@ -54,7 +54,13 @@
 #define MPU6050_I2C_SLV4_CTRL                           0x34
 #define MPU6050_I2C_SLV4_DI                             0x35
 #define MPU6050_I2C_MST_STATUS                          0x36
+
+// start int pin cfg
 #define MPU6050_INT_PIN_CFG                             0x37
+
+#define MPU6050_INT_PIN_CFG_I2C_BYPASS_EN_BIT           1
+// ends int pin cfg
+
 #define MPU6050_INT_ENABLE                              0x38
 #define MPU6050_INT_STATUS                              0x3A
 
@@ -105,7 +111,12 @@
 #define MPU6050_I2C_SLV3_DO                             0x66
 #define MPU6050_I2C_MST_DELAY_CTRL                      0x67
 #define MPU6050_SIGNAL_PATH_RESET                       0x68
+
+// start user ctrl
 #define MPU6050_USER_CTRL                               0x6A
+
+#define MPU6050_USER_CTRL_I2C_MST_EN_BIT                5
+// ends user ctrl
 
 // start power managment 1
 #define MPU6050_PWR_MGMT_1                              0x6B
