@@ -5,7 +5,6 @@
 #include <stdint.h>
 
 void mpu6050_initialize();
-void mpu6050_set_clock_source(uint8_t source);
 void mpu6050_get_motion_6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz);
 
 #endif

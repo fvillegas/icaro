@@ -4,9 +4,12 @@
  */
 
 #include <stdbool.h>
+#include <math.h>
+#include <unistd.h>
 
 #include "mpu6050.h"
 #include "mpu6050_registers.h"
+#include "../i2c/I2Cdev.h"
 
 /**
  * Set clock source setting.
@@ -46,9 +49,8 @@ void mpu6050_set_clock_source(uint8_t source)
         MPU6050_ADDRESS,
         MPU6050_PWR_MGMT_1,
         MPU6050_PWR_MGMT_1_CLK_SEL_BIT,
-        MPU6050_PWR_MGMT_1_CLK_SEL_LENGTH, 
-        source
-    );
+        MPU6050_PWR_MGMT_1_CLK_SEL_LENGTH,
+        source);
 }
 
 /**
@@ -68,8 +70,7 @@ void mpu6050_set_full_scale_gyro_range(uint8_t range)
         MPU6050_GYRO_CONFIG,
         MPU6050_GYRO_FS_SEL_BIT,
         MPU6050_GYRO_FS_SEL_LENGTH,
-        range
-    );
+        range);
 }
 
 /**
@@ -85,8 +86,7 @@ void mpu6050_set_full_scale_accel_range(uint8_t range)
         MPU6050_ACCEL_CONFIG,
         MPU6050_ACCEL_CONFIG_AFS_SEL_BIT,
         MPU6050_ACCEL_CONFIG_AFS_SEL_LENGTH,
-        range
-    );
+        range);
 }
 
 /**
@@ -103,8 +103,7 @@ void mpu6050_set_sleep_enabled(bool enabled)
         MPU6050_ADDRESS,
         MPU6050_PWR_MGMT_1,
         MPU6050_PWR_MGMT_1_SLEEP_BIT,
-        enabled
-    );
+        enabled);
 }
 
 /**
@@ -115,13 +114,13 @@ void mpu6050_set_sleep_enabled(bool enabled)
  * @see MPU6050_USER_CTRL
  * @see MPU6050_USER_CTRL_I2C_MST_EN_BIT
  */
-void mput6050_set_I2C_master_mode_enabled(bool enabled) {
+void mput6050_set_I2C_master_mode_enabled(bool enabled)
+{
     write_bit(
         MPU6050_ADDRESS,
         MPU6050_USER_CTRL,
         MPU6050_USER_CTRL_I2C_MST_EN_BIT,
-        enabled
-    );
+        enabled);
 }
 
 /**
@@ -139,14 +138,60 @@ void mput6050_set_I2C_master_mode_enabled(bool enabled) {
  * @see MPU6050_INT_PIN_CFG
  * @see MPU6050_INT_PIN_CFG_I2C_BYPASS_EN_BIT
  */
-void mpu6050_set_I2C_bypass_enabled(bool enabled) {
+void mpu6050_set_I2C_bypass_enabled(bool enabled)
+{
     write_bit(
         MPU6050_ADDRESS,
         MPU6050_INT_PIN_CFG,
         MPU6050_INT_PIN_CFG_I2C_BYPASS_EN_BIT,
-        enabled
-    );
+        enabled);
 }
+
+/**
+ * base on https://github.com/kriswiner/MPU6050/blob/master/MPU6050IMU.ino#L723
+ */
+//void mpu6050_self_test(float *destination)
+//{
+//    uint8_t rawData[4];
+//    uint8_t selfTest[6];
+//    float factoryTrim[6];
+//    // Configure the accelerometer for self-test
+//    write_byte(MPU6050_ADDRESS, MPU6050_ACCEL_CONFIG, 0xF0);     // Enable self test on all three axes and set accelerometer range to +/- 8 g
+//    write_byte(MPU6050_ADDRESS, MPU6050_GYRO_CONFIG, 0xE0);       // Enable self test on all three axes and set gyro range to +/- 250 degrees/s
+//    sleep(0.250);                                                // Delay a while to let the device execute the self-test
+//    rawData[0] = read_byte(MPU6050_ADDRESS, MPU6050_SELF_TEST_X); // X-axis self-test results
+//    rawData[1] = read_byte(MPU6050_ADDRESS, MPU6050_SELF_TEST_Y); // Y-axis self-test results
+//    rawData[2] = read_byte(MPU6050_ADDRESS, MPU6050_SELF_TEST_Z); // Z-axis self-test results
+//    rawData[3] = read_byte(MPU6050_ADDRESS, MPU6050_SELF_TEST_A); // Mixed-axis self-test results
+//    // Extract the acceleration test results first
+//    selfTest[0] = (rawData[0] >> 3) | (rawData[3] & 0x30) >> 4; // XA_TEST result is a five-bit unsigned integer
+//    selfTest[1] = (rawData[1] >> 3) | (rawData[3] & 0x0C) >> 2; // YA_TEST result is a five-bit unsigned integer
+//    selfTest[2] = (rawData[2] >> 3) | (rawData[3] & 0x03);      // ZA_TEST result is a five-bit unsigned integer
+//    // Extract the gyration test results first
+//    selfTest[3] = rawData[0] & 0x1F; // XG_TEST result is a five-bit unsigned integer
+//    selfTest[4] = rawData[1] & 0x1F; // YG_TEST result is a five-bit unsigned integer
+//    selfTest[5] = rawData[2] & 0x1F; // ZG_TEST result is a five-bit unsigned integer
+//    // Process results to allow final comparison with factory set values
+//    factoryTrim[0] = (4096.0 * 0.34) * (pow((0.92 / 0.34), (((float)selfTest[0] - 1.0) / 30.0))); // FT[Xa] factory trim calculation
+//    factoryTrim[1] = (4096.0 * 0.34) * (pow((0.92 / 0.34), (((float)selfTest[1] - 1.0) / 30.0))); // FT[Ya] factory trim calculation
+//    factoryTrim[2] = (4096.0 * 0.34) * (pow((0.92 / 0.34), (((float)selfTest[2] - 1.0) / 30.0))); // FT[Za] factory trim calculation
+//    factoryTrim[3] = (25.0 * 131.0) * (pow(1.046, ((float)selfTest[3] - 1.0)));                   // FT[Xg] factory trim calculation
+//    factoryTrim[4] = (-25.0 * 131.0) * (pow(1.046, ((float)selfTest[4] - 1.0)));                  // FT[Yg] factory trim calculation
+//    factoryTrim[5] = (25.0 * 131.0) * (pow(1.046, ((float)selfTest[5] - 1.0)));                   // FT[Zg] factory trim calculation
+//
+//    //  Output self-test results and factory trim calculation if desired
+//    //  Serial.println(selfTest[0]); Serial.println(selfTest[1]); Serial.println(selfTest[2]);
+//    //  Serial.println(selfTest[3]); Serial.println(selfTest[4]); Serial.println(selfTest[5]);
+//    //  Serial.println(factoryTrim[0]); Serial.println(factoryTrim[1]); Serial.println(factoryTrim[2]);
+//    //  Serial.println(factoryTrim[3]); Serial.println(factoryTrim[4]); Serial.println(factoryTrim[5]);
+//
+//    // Report results as a ratio of (STR - FT)/FT; the change from Factory Trim of the Self-Test Response
+//    // To get to percent, must multiply by 100 and subtract result from 100
+//    for (int i = 0; i < 6; i++)
+//    {
+//        destination[i] = 100.0 + 100.0 * ((float)selfTest[i] - factoryTrim[i]) / factoryTrim[i]; // Report percent differences
+//    }
+//}
 
 /**
  * Power on and prepare for general usage.
@@ -181,20 +226,20 @@ void mpu6050_initialize()
  * @see getRotation()
  * @see MPU6050_ACCEL_XOUT_H
  */
-void mpu6050_get_motion_6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz) {
+void mpu6050_get_motion_6(int16_t *ax, int16_t *ay, int16_t *az, int16_t *gx, int16_t *gy, int16_t *gz)
+{
     uint8_t buffer[14];
 
     read_bytes(
         MPU6050_ADDRESS,
         MPU6050_ACCEL_XOUT_H,
         14,
-        buffer
-    );
+        buffer);
 
-    *ax = (((int16_t) buffer[0]) << 8) | buffer[1];
-    *ay = (((int16_t) buffer[2]) << 8) | buffer[3];
-    *az = (((int16_t) buffer[4]) << 8) | buffer[5];
-    *gx = (((int16_t) buffer[8]) << 8) | buffer[9];
-    *gy = (((int16_t) buffer[10]) << 8) | buffer[11];
-    *gz = (((int16_t) buffer[12]) << 8) | buffer[13];
+    *ax = (((int16_t)buffer[0]) << 8) | buffer[1];
+    *ay = (((int16_t)buffer[2]) << 8) | buffer[3];
+    *az = (((int16_t)buffer[4]) << 8) | buffer[5];
+    *gx = (((int16_t)buffer[8]) << 8) | buffer[9];
+    *gy = (((int16_t)buffer[10]) << 8) | buffer[11];
+    *gz = (((int16_t)buffer[12]) << 8) | buffer[13];
 }
