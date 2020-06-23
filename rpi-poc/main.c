@@ -41,22 +41,22 @@ Mahony filter;
 
 void calculate_pitch_roll_yaw()
 {
-  int16_t ax, ay, az, gx, gy, gz;
-  
+  int16_t ax, ay, az, gx, gy, gz, mx, my, mz;
+
   mpu6050_get_motion_6(&ax, &ay, &az, &gx, &gy, &gz);
-  
-//  accData[0] = ax;
-//  accData[1] = ay;
-//  accData[2] = az;
-//
-//  gyrData[0] = gx;
-//  gyrData[1] = gy;
-//  gyrData[2] = gz;
-//
-//  complementary_filter(accData, gyrData, &pitch, &roll);
-// Update the Mahony filter, with scaled gyroscope
-  float gyroScale = 0.001;  // TODO: the filter updates too fast
-  filter.updateIMU(gx * gyroScale, gy * gyroScale, gz * gyroScale, ax, ay, az);
+  getHeading(&mx, &my, &mz);
+  //  accData[0] = ax;
+  //  accData[1] = ay;
+  //  accData[2] = az;
+  //
+  //  gyrData[0] = gx;
+  //  gyrData[1] = gy;
+  //  gyrData[2] = gz;
+  //
+  //  complementary_filter(accData, gyrData, &pitch, &roll);
+  // Update the Mahony filter, with scaled gyroscope
+  float gyroScale = 3.14159f / 180.0f;
+  filter.update(gx * gyroScale, gy * gyroScale, gz * gyroScale, ax, ay, az, mx, my, mz);
 
   printf("%f\t%f\t%f\n", filter.getPitch(), filter.getRoll(), filter.getYaw());
 }
@@ -64,7 +64,7 @@ void calculate_pitch_roll_yaw()
 int main(void)
 {
   mpu6050_initialize();
-
+  hcm5883l_initialize();
   while (1)
   {
     calculate_pitch_roll_yaw();
