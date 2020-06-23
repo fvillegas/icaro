@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include "sensors/mpu6050.h"
+#include "MahonyAHRS.h"
 
 #define ACCELEROMETER_SENSITIVITY 8192.0
 #define GYROSCOPE_SENSITIVITY 65.536
@@ -35,23 +36,28 @@ void complementary_filter(short accData[3], short gyrData[3], float *pitch, floa
 short accData[3], gyrData[3];
 float pitch, roll;
 
+Mahony filter;
+
 void calculate_pitch_roll_yaw()
 {
   int16_t ax, ay, az, gx, gy, gz;
   
   mpu6050_get_motion_6(&ax, &ay, &az, &gx, &gy, &gz);
   
-  accData[0] = ax;
-  accData[1] = ay;
-  accData[2] = az;
+//  accData[0] = ax;
+//  accData[1] = ay;
+//  accData[2] = az;
+//
+//  gyrData[0] = gx;
+//  gyrData[1] = gy;
+//  gyrData[2] = gz;
+//
+//  complementary_filter(accData, gyrData, &pitch, &roll);
+// Update the Mahony filter, with scaled gyroscope
+  float gyroScale = 0.001;  // TODO: the filter updates too fast
+  filter.updateIMU(gx * gyroScale, gy * gyroScale, gz * gyroScale, ax, ay, az);
 
-  gyrData[0] = gx;
-  gyrData[1] = gy;
-  gyrData[2] = gz;
-
-  complementary_filter(accData, gyrData, &pitch, &roll);
-
-  printf("%f\t%f\n", pitch, roll);
+  printf("%f\t%f\t%f\n", filter.getPitch(), filter.getRoll(), filter.getYaw());
 }
 
 int main(void)
