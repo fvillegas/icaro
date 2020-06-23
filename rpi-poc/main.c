@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include "sensors/mpu6050.h"
+#include "sensors/hcm5883l.h"
 #include "MahonyAHRS.h"
 
 #define ACCELEROMETER_SENSITIVITY 8192.0

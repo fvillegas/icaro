@@ -1,5 +1,5 @@
-#ifndef __HCM5883L_H_
-#define __HCM5883L_H_
+#ifndef __HCM5883L_REGISTERS_H_
+#define __HCM5883L_REGISTERS_H_
 
 #define HMC5883L_ADDRESS            0x1E
 
