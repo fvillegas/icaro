@@ -43,6 +43,8 @@ Discarded input sections
  .text          0x00000000        0x0 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
  .data          0x00000000        0x0 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
  .bss           0x00000000        0x0 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
+ .text.twi_get_state
+                0x00000000        0x6 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
  .text.twi_disable
                 0x00000000        0xc C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
  .text.twi_attach_slave_tx_event
@@ -659,53 +661,53 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x108
+.debug_aranges  0x00000000      0x110
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x30 main.o
  .debug_aranges
-                0x00000030       0x78 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
+                0x00000030       0x80 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
  .debug_aranges
-                0x000000a8       0x60 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
+                0x000000b0       0x60 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x10a6
+.debug_info     0x00000000     0x10cb
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.4.351/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_info    0x000005f4      0x1c3 main.o
- .debug_info    0x000007b7      0x5c1 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
- .debug_info    0x00000d78      0x32e C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
+ .debug_info    0x000007b7      0x5e6 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
+ .debug_info    0x00000d9d      0x32e C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
 
-.debug_abbrev   0x00000000      0x982
+.debug_abbrev   0x00000000      0x99c
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.4.351/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_abbrev  0x000005a2       0xe5 main.o
- .debug_abbrev  0x00000687      0x1b8 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
- .debug_abbrev  0x0000083f      0x143 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
+ .debug_abbrev  0x00000687      0x1d2 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
+ .debug_abbrev  0x00000859      0x143 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
 
-.debug_line     0x00000000      0xa00
+.debug_line     0x00000000      0xa16
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x134 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.4.351/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_line    0x00000134      0x151 main.o
- .debug_line    0x00000285      0x51b C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
- .debug_line    0x000007a0      0x260 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
+ .debug_line    0x00000285      0x531 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
+ .debug_line    0x000007b6      0x260 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
 
-.debug_frame    0x00000000      0x274
+.debug_frame    0x00000000      0x284
  *(.debug_frame)
  .debug_frame   0x00000000       0x50 main.o
- .debug_frame   0x00000050      0x124 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
- .debug_frame   0x00000174      0x100 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
+ .debug_frame   0x00000050      0x134 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
+ .debug_frame   0x00000184      0x100 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
 
-.debug_str      0x00000000      0x684
+.debug_str      0x00000000      0x692
  *(.debug_str)
  .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.4.351/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_str     0x00000208      0x1a1 main.o
                                 0x1d5 (size before relaxing)
- .debug_str     0x000003a9      0x1e3 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
-                                0x34e (size before relaxing)
- .debug_str     0x0000058c       0xf8 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
+ .debug_str     0x000003a9      0x1f1 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
+                                0x363 (size before relaxing)
+ .debug_str     0x0000059a       0xf8 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
                                 0x280 (size before relaxing)
 
 .debug_loc      0x00000000      0x8c6
@@ -732,11 +734,11 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0xf0
+.debug_ranges   0x00000000       0xf8
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x20 main.o
- .debug_ranges  0x00000020       0x68 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
- .debug_ranges  0x00000088       0x68 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
+ .debug_ranges  0x00000020       0x70 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(twi.o)
+ .debug_ranges  0x00000090       0x68 C:\Users\fcvil\Projects\icaro\icaro\icaro_lib\Debug\libicaro_lib.a(uart.o)
 
 .debug_macro
  *(.debug_macro)

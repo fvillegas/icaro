@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <math.h>
 #include <unistd.h>
 
@@ -7,7 +8,6 @@
 #include "mpu6050.h"
 #include "mpu6050_registers.h"
 
-#define abs(x) ((x)>0?(x):-(x))
 
 /**
 * Set clock source setting.

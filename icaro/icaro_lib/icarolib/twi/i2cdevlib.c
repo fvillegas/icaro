@@ -8,6 +8,9 @@
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
 
+static void (*user_on_request)(void);
+static void (*user_on_receive)(int);
+    
 uint8_t rx_buffer[BUFFER_LENGTH];
 uint8_t rx_buffer_index = 0;
 uint8_t rx_buffer_length = 0;
@@ -26,8 +29,17 @@ void wire_init()
     tx_buffer_index = 0;
     tx_buffer_length = 0;
     twi_init();
+    twi_attach_slave_tx_event(wire_on_request_service);
+    twi_attach_slave_rx_event(wire_on_receive_service);
 }
 
+void wire_set_address(uint8_t address) { twi_set_address(address); }
+
+int8_t wire_get_status(void)
+{
+    return twi_get_state();
+}
+    
 uint8_t wire_request_from(uint8_t address, uint8_t quantity, uint32_t iaddress, uint8_t isize, uint8_t sendStop)
 {
     if (isize > 0)
@@ -86,6 +98,32 @@ int wire_read(void)
     }
     return value;
 }
+
+void wire_set_on_receive(void (*function)(int)) { user_on_receive = function; }
+
+void wire_set_on_request(void (*function)(void)) { user_on_request = function; }
+
+void wire_on_receive_service(uint8_t *in_bytes, int num_bytes)
+{
+    if (!user_on_receive) { return; }
+    if (rx_buffer_index < rx_buffer_length) { return; }
+    for(uint8_t i = 0; i < num_bytes; i++)
+    {
+        rx_buffer[i] = in_bytes[i];
+    }
+    rx_buffer_index = 0;
+    rx_buffer_length = num_bytes;
+    user_on_receive(num_bytes);
+}
+
+void wire_on_request_service(void)
+{
+    if (!user_on_request) { return; }
+    tx_buffer_index = 0;
+    tx_buffer_length = 0;
+    user_on_request();
+}
+
 
 /** Read a single bit from an 8-bit device register.
 * @param dev_address I2C slave device address

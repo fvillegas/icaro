@@ -48,6 +48,8 @@ void twi_init(void)
     TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWEA);
 }
 
+int8_t twi_get_state(void) { return twi_state; }
+
 void twi_disable(void) { TWCR &= ~(_BV(TWEN) | _BV(TWIE) | _BV(TWEA)); }
 
 void twi_set_address(uint8_t address) { TWAR = address << 1; }

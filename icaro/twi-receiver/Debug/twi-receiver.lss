@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000012f8  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000108  00000000  00000000  00001338  2**0
+  5 .debug_aranges 00000110  00000000  00000000  00001338  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000010a6  00000000  00000000  00001440  2**0
+  6 .debug_info   000010cb  00000000  00000000  00001448  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000982  00000000  00000000  000024e6  2**0
+  7 .debug_abbrev 0000099c  00000000  00000000  00002513  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000a00  00000000  00000000  00002e68  2**0
+  8 .debug_line   00000a16  00000000  00000000  00002eaf  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000274  00000000  00000000  00003868  2**2
+  9 .debug_frame  00000284  00000000  00000000  000038c8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000684  00000000  00000000  00003adc  2**0
+ 10 .debug_str    00000692  00000000  00000000  00003b4c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000008c6  00000000  00000000  00004160  2**0
+ 11 .debug_loc    000008c6  00000000  00000000  000041de  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000f0  00000000  00000000  00004a26  2**0
+ 12 .debug_ranges 000000f8  00000000  00000000  00004aa4  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:

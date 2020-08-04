@@ -41,6 +41,7 @@ SUBDIRS :=  \
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../icarolib/float.c \
 ../icarolib/timer/timer.c \
 ../icarolib/twi/i2cdevlib.c \
 ../icarolib/twi/twi.c \
@@ -54,24 +55,28 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+icarolib/float.o \
 icarolib/timer/timer.o \
 icarolib/twi/i2cdevlib.o \
 icarolib/twi/twi.o \
 icarolib/uart/uart.o
 
 OBJS_AS_ARGS +=  \
+icarolib/float.o \
 icarolib/timer/timer.o \
 icarolib/twi/i2cdevlib.o \
 icarolib/twi/twi.o \
 icarolib/uart/uart.o
 
 C_DEPS +=  \
+icarolib/float.d \
 icarolib/timer/timer.d \
 icarolib/twi/i2cdevlib.d \
 icarolib/twi/twi.d \
 icarolib/uart/uart.d
 
 C_DEPS_AS_ARGS +=  \
+icarolib/float.d \
 icarolib/timer/timer.d \
 icarolib/twi/i2cdevlib.d \
 icarolib/twi/twi.d \
@@ -91,6 +96,13 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+icarolib/float.o: ../icarolib/float.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000UL  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.351\include" -I"../icarolib"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\ATmega_DFP\1.4.351\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 icarolib/timer/timer.o: ../icarolib/timer/timer.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0

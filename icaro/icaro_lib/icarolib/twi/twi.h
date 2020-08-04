@@ -16,6 +16,7 @@
 #define TWI_STX   4
 
 void twi_init(void);
+int8_t twi_get_state(void);
 void twi_disable(void);
 void twi_set_address(uint8_t address);
 void twi_attach_slave_rx_event(void (*function)(uint8_t*, int));

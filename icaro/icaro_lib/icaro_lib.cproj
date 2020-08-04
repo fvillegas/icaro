@@ -124,6 +124,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="icarolib\float.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="icarolib\float.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="icarolib\icaro_common.h">
       <SubType>compile</SubType>
     </Compile>
