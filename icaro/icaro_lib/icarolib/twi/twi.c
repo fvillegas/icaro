@@ -33,7 +33,6 @@ static volatile uint8_t twi_rx_buffer_index;
 
 void twi_stop(void);
 void twi_reply(uint8_t ack);
-void twi_reply(uint8_t ack);
 
 void twi_init(void)
 {

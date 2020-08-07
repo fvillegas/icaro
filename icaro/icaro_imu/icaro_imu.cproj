@@ -111,15 +111,12 @@
       <Value>DEBUG</Value>
       <Value>F_CPU=16000000UL</Value>
       <Value>UART_BAUD_RATE=57600</Value>
-      <Value>RUN_CALIBRATION</Value>
       <Value>SENSOR_RAW_VALUES</Value>
     </ListValues>
   </avrgcc.compiler.symbols.DefSymbols>
   <avrgcc.compiler.preprocessor.UndefSymbols>
     <ListValues>
-      <Value>RUN_CALIBRATION</Value>
       <Value>SENSOR_RAW_VALUES</Value>
-      <Value>DEBUG</Value>
     </ListValues>
   </avrgcc.compiler.preprocessor.UndefSymbols>
   <avrgcc.compiler.directories.IncludePaths>

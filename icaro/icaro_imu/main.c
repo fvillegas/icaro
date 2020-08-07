@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -24,11 +25,13 @@ int count = 0;
 
 #define REGISTER_LENGTH 13
 
-// STATUS[1] ROLL[4] PITCH[4] YAW[4]
-uint8_t REGISTER[REGISTER_LENGTH] = {0};
+// 0 - STATUS[1] 1- ROLL[4] 5- PITCH[4] 9- YAW[4]
+uint8_t volatile REGISTER[REGISTER_LENGTH] = {0};
 int16_t gx, gy, gz, ax, ay, az, mx, my, mz;
 
 uint8_t twi_request_address = 0;
+
+union Float f;
 
 void setup(void);
 void setup_sensors(void);
@@ -38,17 +41,15 @@ void on_request();
 
 void on_receive(int num_bytes)
 {
-    int address = wire_read();   
-    for (; wire_available() && address < REGISTER_LENGTH; address++)
-    { REGISTER[address] = wire_read(); }
+    twi_request_address = wire_read();
+    for (; wire_available() && twi_request_address < REGISTER_LENGTH; twi_request_address++)
+    { REGISTER[twi_request_address] = wire_read(); }
 }
 
 void on_request()
 {
-    if (twi_request_address) { return; }
-    int i = twi_request_address;
-    for (;wire_get_status() == TWI_STX && i < REGISTER_LENGTH; i++)
-    { wire_write(REGISTER[i]); }
+    for (;wire_get_status() == TWI_STX && twi_request_address < REGISTER_LENGTH; twi_request_address++)
+    { wire_write(REGISTER[twi_request_address]); }
 }
 
 void calibrate_gyro_accel(void)
@@ -102,14 +103,14 @@ void setup(void)
     int16_t mpu6050_offset_values[6] = {0};
     fetch_mpu6050_calibration(mpu6050_offset_values);
     sprintf(
-        BUFFER,
-        "mpu6050 calibration values %d %d %d %d %d %d\n",
-        mpu6050_offset_values[0],
-        mpu6050_offset_values[1],
-        mpu6050_offset_values[2],
-        mpu6050_offset_values[3],
-        mpu6050_offset_values[4],
-        mpu6050_offset_values[5]
+    BUFFER,
+    "mpu6050 calibration values %d %d %d %d %d %d\n",
+    mpu6050_offset_values[0],
+    mpu6050_offset_values[1],
+    mpu6050_offset_values[2],
+    mpu6050_offset_values[3],
+    mpu6050_offset_values[4],
+    mpu6050_offset_values[5]
     );
     uart_puts(BUFFER);
     uart_puts("setup done\n");
@@ -148,22 +149,34 @@ void calculate_roll_pitch_yaw()
     hcm5883l_get_heading(&mx, &my, &mz);
     
     mahony_update(
-        gz * 0.001,
-        gy * 0.001,
-        gz * 0.001,
-        ax * 0.001,
-        ay * 0.001,
-        az * 0.001,
-        mx * 0.001,
-        my * 0.001,
-        mz * 0.001);
+    gz * 0.001,
+    gy * 0.001,
+    gz * 0.001,
+    ax * 0.001,
+    ay * 0.001,
+    az * 0.001,
+    mx * 0.001,
+    my * 0.001,
+    mz * 0.001);
 
-    ATOMIC_BLOCK(ATOMIC_FORCEON)
-    {
-     float_to_bytes(getRoll(), &REGISTER[IMU_ROLL_ADDRESS]);
-     float_to_bytes(getPitch(), &REGISTER[IMU_PITCH_ADDRESS]);
-     float_to_bytes(getYaw(), &REGISTER[IMU_YAW_ADDRESS]);   
-    }    
+    f.m_float = getRoll();
+    REGISTER[IMU_ROLL_ADDRESS] = f.m_bytes[0];
+    REGISTER[IMU_ROLL_ADDRESS + 1] = f.m_bytes[1];
+    REGISTER[IMU_ROLL_ADDRESS + 2] = f.m_bytes[2];
+    REGISTER[IMU_ROLL_ADDRESS + 3] = f.m_bytes[3];
+    
+    f.m_float = getPitch();
+    REGISTER[IMU_PITCH_ADDRESS] = f.m_bytes[0];
+    REGISTER[IMU_PITCH_ADDRESS + 1] = f.m_bytes[1];
+    REGISTER[IMU_PITCH_ADDRESS + 2] = f.m_bytes[2];
+    REGISTER[IMU_PITCH_ADDRESS + 3] = f.m_bytes[3];
+    
+    f.m_float = getYaw();
+    REGISTER[IMU_YAW_ADDRESS] = f.m_bytes[0];
+    REGISTER[IMU_YAW_ADDRESS + 1] = f.m_bytes[1];
+    REGISTER[IMU_YAW_ADDRESS + 2] = f.m_bytes[2];
+    REGISTER[IMU_YAW_ADDRESS + 3] = f.m_bytes[3];
+    f.m_float = 0;
 }
 
 int main(void)
@@ -179,52 +192,42 @@ int main(void)
     uart_puts("ready to start\n");
     #endif
     
-    long last = 0;
+    long last_debug = 0;
+    long last_imu = 0;
     long delta = 0;
     
     while(1)
     {
-        delta = millis() - last;
-        
         if (REGISTER[IMU_STATUS_ADDRESS] == IMU_STATUS_RUNNING)
         {
-            calculate_roll_pitch_yaw();
-        
-            if(delta > 1000)
+            delta = millis() - last_imu;
+            if (delta > 14)
+            {
+                calculate_roll_pitch_yaw();
+                #if DEBUG
+                count++;
+                #endif
+                last_imu = millis();
+            }
+            delta = millis() - last_debug;
+            if (delta > 1000)
             {
                 PORTB ^= (1 << PB5);
-        
-                #if DEBUG
-                #if SENSOR_RAW_VALUES
-                sprintf(BUFFER,
-                    "raw\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
-                    gx, gy, gz, ax, ay, az, mx, my, mz);    
-                uart_puts(BUFFER);
-                #endif
-                
-                count++;
-                sprintf(
-                    BUFFER,
-                    "rpy\t%f\t%f\t%f\treadings\t%d\n",
-                    bytes_to_float(&REGISTER[IMU_ROLL_ADDRESS]),
-                    bytes_to_float(&REGISTER[IMU_PITCH_ADDRESS]),
-                    bytes_to_float(&REGISTER[IMU_YAW_ADDRESS]),
-                    count
-                );
-                
-                uart_puts(BUFFER);
-                count = 0;
-                #endif
-                
-                last = millis();
+                last_debug = millis();
             }
-            #if DEBUG
-            count++;
-            #endif
         }
-        else if (REGISTER[IMU_STATUS_CALIBRATING] == IMU_STATUS_RUNNING)
+        else if (REGISTER[IMU_STATUS_ADDRESS] == IMU_STATUS_CALIBRATING)
         {
+            #ifdef DEBUG
+            uart_puts("running calibration\n");
+            #endif
+            PORTB ^= (1 << PB5);
             calibrate_gyro_accel();
+            REGISTER[IMU_STATUS_ADDRESS] = IMU_STATUS_READY_TO_START;
+            PORTB ^= (1 << PB5);
+            #ifdef DEBUG
+            uart_puts("calibration done\n");
+            #endif
         }
     }
 }
