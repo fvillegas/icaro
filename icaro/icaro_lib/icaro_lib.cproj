@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>7.0</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8.C</ToolchainName>
-    <ProjectGuid>{86ff978f-068f-41cf-8fe7-1a47613f94ee}</ProjectGuid>
+    <ProjectGuid>{6cf83775-33f2-4135-b18c-2ea80ff16efb}</ProjectGuid>
     <avrdevice>ATmega328P</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>StaticLibrary</OutputType>
@@ -101,7 +101,6 @@
         <avrgcc.compiler.directories.IncludePaths>
           <ListValues>
             <Value>%24(PackRepoDir)\Atmel\ATmega_DFP\1.4.351\include</Value>
-            <Value>../icarolib</Value>
           </ListValues>
         </avrgcc.compiler.directories.IncludePaths>
         <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
@@ -124,42 +123,30 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="icarolib\float.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="icarolib\icaro_common.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="icarolib\timer\timer.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="icarolib\timer\timer.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="icarolib\twi\i2cdevlib.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="icarolib\twi\i2cdevlib.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="icarolib\twi\twi.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="icarolib\twi\twi.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="icarolib\uart\uart.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="icarolib\uart\uart.h">
-      <SubType>compile</SubType>
-    </Compile>
+    <Folder Include="icaro" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="icarolib" />
-    <Folder Include="icarolib\timer" />
-    <Folder Include="icarolib\twi\" />
-    <Folder Include="icarolib\uart" />
+    <Compile Include="icaro\i2cdevlib.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="icaro\i2cdevlib.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="icaro\imu.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="icaro\twi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="icaro\twi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="icaro\wire.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="icaro\wire.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

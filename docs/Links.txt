@@ -1,4 +1,0 @@
-http://www.brokking.net/ymfc-al_main.html
-https://www.youtube.com/watch?v=bEJ7qRkQpOQ
-https://github.com/jrowberg/i2cdevlib
-https://github.com/rpicopter/MotionSensorExample

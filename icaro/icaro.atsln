@@ -3,19 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Atmel Studio Solution File, Format Version 11.00
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "master", "master\master.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "blink", "blink\blink.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
 EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "blink", "blink\blink.cproj", "{039CC1AC-33E4-4770-9A24-4EC65152778B}"
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "icaro_imu", "icaro_imu\icaro_imu.cproj", "{2AC28DEE-7905-436C-8815-322DFD317250}"
 EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "icaro_lib", "icaro_lib\icaro_lib.cproj", "{86FF978F-068F-41CF-8FE7-1A47613F94EE}"
-EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "icaro_imu", "icaro_imu\icaro_imu.cproj", "{D983A423-FD8D-49E6-8494-5371147AF484}"
-EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "pwm", "pwm\pwm.cproj", "{EF31A968-998D-4E6B-966D-AFD8FC567B20}"
-EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "twi-transmitter", "twi-transmitter\twi-transmitter.cproj", "{CF80D173-4DEA-4759-92E4-72B73BD3F74E}"
-EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "twi-receiver", "twi-receiver\twi-receiver.cproj", "{97D55C16-B753-4A55-A82C-606947E0343E}"
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "icaro_lib", "icaro_lib\icaro_lib.cproj", "{6CF83775-33F2-4135-B18C-2EA80FF16EFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,30 +19,14 @@ Global
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Build.0 = Debug|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.ActiveCfg = Release|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.Build.0 = Release|AVR
-		{039CC1AC-33E4-4770-9A24-4EC65152778B}.Debug|AVR.ActiveCfg = Debug|AVR
-		{039CC1AC-33E4-4770-9A24-4EC65152778B}.Debug|AVR.Build.0 = Debug|AVR
-		{039CC1AC-33E4-4770-9A24-4EC65152778B}.Release|AVR.ActiveCfg = Release|AVR
-		{039CC1AC-33E4-4770-9A24-4EC65152778B}.Release|AVR.Build.0 = Release|AVR
-		{86FF978F-068F-41CF-8FE7-1A47613F94EE}.Debug|AVR.ActiveCfg = Debug|AVR
-		{86FF978F-068F-41CF-8FE7-1A47613F94EE}.Debug|AVR.Build.0 = Debug|AVR
-		{86FF978F-068F-41CF-8FE7-1A47613F94EE}.Release|AVR.ActiveCfg = Release|AVR
-		{86FF978F-068F-41CF-8FE7-1A47613F94EE}.Release|AVR.Build.0 = Release|AVR
-		{D983A423-FD8D-49E6-8494-5371147AF484}.Debug|AVR.ActiveCfg = Debug|AVR
-		{D983A423-FD8D-49E6-8494-5371147AF484}.Debug|AVR.Build.0 = Debug|AVR
-		{D983A423-FD8D-49E6-8494-5371147AF484}.Release|AVR.ActiveCfg = Release|AVR
-		{D983A423-FD8D-49E6-8494-5371147AF484}.Release|AVR.Build.0 = Release|AVR
-		{EF31A968-998D-4E6B-966D-AFD8FC567B20}.Debug|AVR.ActiveCfg = Debug|AVR
-		{EF31A968-998D-4E6B-966D-AFD8FC567B20}.Debug|AVR.Build.0 = Debug|AVR
-		{EF31A968-998D-4E6B-966D-AFD8FC567B20}.Release|AVR.ActiveCfg = Release|AVR
-		{EF31A968-998D-4E6B-966D-AFD8FC567B20}.Release|AVR.Build.0 = Release|AVR
-		{CF80D173-4DEA-4759-92E4-72B73BD3F74E}.Debug|AVR.ActiveCfg = Debug|AVR
-		{CF80D173-4DEA-4759-92E4-72B73BD3F74E}.Debug|AVR.Build.0 = Debug|AVR
-		{CF80D173-4DEA-4759-92E4-72B73BD3F74E}.Release|AVR.ActiveCfg = Release|AVR
-		{CF80D173-4DEA-4759-92E4-72B73BD3F74E}.Release|AVR.Build.0 = Release|AVR
-		{97D55C16-B753-4A55-A82C-606947E0343E}.Debug|AVR.ActiveCfg = Debug|AVR
-		{97D55C16-B753-4A55-A82C-606947E0343E}.Debug|AVR.Build.0 = Debug|AVR
-		{97D55C16-B753-4A55-A82C-606947E0343E}.Release|AVR.ActiveCfg = Release|AVR
-		{97D55C16-B753-4A55-A82C-606947E0343E}.Release|AVR.Build.0 = Release|AVR
+		{2AC28DEE-7905-436C-8815-322DFD317250}.Debug|AVR.ActiveCfg = Debug|AVR
+		{2AC28DEE-7905-436C-8815-322DFD317250}.Debug|AVR.Build.0 = Debug|AVR
+		{2AC28DEE-7905-436C-8815-322DFD317250}.Release|AVR.ActiveCfg = Release|AVR
+		{2AC28DEE-7905-436C-8815-322DFD317250}.Release|AVR.Build.0 = Release|AVR
+		{6CF83775-33F2-4135-B18C-2EA80FF16EFB}.Debug|AVR.ActiveCfg = Debug|AVR
+		{6CF83775-33F2-4135-B18C-2EA80FF16EFB}.Debug|AVR.Build.0 = Debug|AVR
+		{6CF83775-33F2-4135-B18C-2EA80FF16EFB}.Release|AVR.ActiveCfg = Release|AVR
+		{6CF83775-33F2-4135-B18C-2EA80FF16EFB}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
