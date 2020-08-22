@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Atmel Studio Solution File, Format Version 11.00
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "blink", "blink\blink.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "icaro_lib", "icaro_lib\icaro_lib.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
 EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "icaro_imu", "icaro_imu\icaro_imu.cproj", "{2AC28DEE-7905-436C-8815-322DFD317250}"
-EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "icaro_lib", "icaro_lib\icaro_lib.cproj", "{6CF83775-33F2-4135-B18C-2EA80FF16EFB}"
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "icaro_imu", "icaro_imu\icaro_imu.cproj", "{A24D3B19-BA14-4107-9041-B5356119502E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +17,10 @@ Global
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Build.0 = Debug|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.ActiveCfg = Release|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.Build.0 = Release|AVR
-		{2AC28DEE-7905-436C-8815-322DFD317250}.Debug|AVR.ActiveCfg = Debug|AVR
-		{2AC28DEE-7905-436C-8815-322DFD317250}.Debug|AVR.Build.0 = Debug|AVR
-		{2AC28DEE-7905-436C-8815-322DFD317250}.Release|AVR.ActiveCfg = Release|AVR
-		{2AC28DEE-7905-436C-8815-322DFD317250}.Release|AVR.Build.0 = Release|AVR
-		{6CF83775-33F2-4135-B18C-2EA80FF16EFB}.Debug|AVR.ActiveCfg = Debug|AVR
-		{6CF83775-33F2-4135-B18C-2EA80FF16EFB}.Debug|AVR.Build.0 = Debug|AVR
-		{6CF83775-33F2-4135-B18C-2EA80FF16EFB}.Release|AVR.ActiveCfg = Release|AVR
-		{6CF83775-33F2-4135-B18C-2EA80FF16EFB}.Release|AVR.Build.0 = Release|AVR
+		{A24D3B19-BA14-4107-9041-B5356119502E}.Debug|AVR.ActiveCfg = Debug|AVR
+		{A24D3B19-BA14-4107-9041-B5356119502E}.Debug|AVR.Build.0 = Debug|AVR
+		{A24D3B19-BA14-4107-9041-B5356119502E}.Release|AVR.ActiveCfg = Release|AVR
+		{A24D3B19-BA14-4107-9041-B5356119502E}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

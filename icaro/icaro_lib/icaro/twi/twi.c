@@ -1,9 +1,6 @@
+#include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/twi.h>
-
-#include <avr/io.h>
-#include <avr/sfr_defs.h>
-
 #include "twi.h"
 
 #ifndef cbi
@@ -20,8 +17,8 @@ static volatile uint8_t twi_in_rep_start;
 static volatile uint8_t twi_slarw;
 static volatile uint8_t twi_error;
 
-static volatile uint8_t twi_state;
-static volatile uint8_t twi_slarw;
+static void (*twi_on_slave_transmit)(void);
+static void (*twi_on_slave_receive)(uint8_t*, int);
 
 static uint8_t twi_master_buffer[TWI_BUFFER_LENGTH];
 static volatile uint8_t twi_master_buffer_index;
@@ -34,12 +31,15 @@ static volatile uint8_t twi_tx_buffer_length;
 static uint8_t twi_rx_buffer[TWI_BUFFER_LENGTH];
 static volatile uint8_t twi_rx_buffer_index;
 
-static void (*twi_on_slave_transmit)(void);
-static void (*twi_on_slave_receive)(uint8_t*, int);
+void twi_stop(void);
+void twi_reply(uint8_t ack);
+void twi_reply(uint8_t ack);
 
 void twi_init(void)
 {
     twi_state = TWI_READY;
+    twi_send_stop = 1;
+    twi_in_rep_start = 0;
     
     cbi(TWSR, TWPS0);
     cbi(TWSR, TWPS1);
@@ -48,6 +48,8 @@ void twi_init(void)
     TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWEA);
 }
 
+int8_t twi_get_state(void) { return twi_state; }
+
 void twi_disable(void) { TWCR &= ~(_BV(TWEN) | _BV(TWIE) | _BV(TWEA)); }
 
 void twi_set_address(uint8_t address) { TWAR = address << 1; }
@@ -55,7 +57,7 @@ void twi_set_address(uint8_t address) { TWAR = address << 1; }
 void twi_attach_slave_rx_event(void (*function)(uint8_t*, int)) { twi_on_slave_receive = function; }
 
 void twi_attach_slave_tx_event(void (*function)(void)) { twi_on_slave_transmit = function; }
- 
+
 uint8_t twi_read(uint8_t address, uint8_t* data, uint8_t length, uint8_t send_stop)
 {
     uint8_t i;
@@ -66,7 +68,7 @@ uint8_t twi_read(uint8_t address, uint8_t* data, uint8_t length, uint8_t send_st
     twi_send_stop = send_stop;
     twi_error = 0xFF;
     twi_master_buffer_index = 0;
-    twi_master_buffer_length = length - 1;
+    twi_master_buffer_length = length-1;
     
     twi_slarw = TW_READ;
     twi_slarw |= address << 1;
@@ -131,7 +133,7 @@ uint8_t twi_transmit(const uint8_t* data, uint8_t length)
     twi_tx_buffer_length += length;
     return 0;
 }
-    
+
 void twi_stop(void)
 {
     TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWEA) | _BV(TWINT) | _BV(TWSTO);
@@ -185,7 +187,6 @@ ISR(TWI_vect)
             }
         }
         break;
-
         case TW_MT_SLA_NACK:  // SLA+W transmitted, NACK received
         {
             twi_error = TW_MT_SLA_NACK;
@@ -251,7 +252,8 @@ ISR(TWI_vect)
                 twi_rx_buffer[twi_rx_buffer_index++] = TWDR;
                 twi_reply(1);
             }
-            else { twi_reply(0); }            
+            else { twi_reply(0); }
+            
         }
         break;
         case TW_SR_STOP: // stop or repeated start condition received while selected
@@ -262,7 +264,6 @@ ISR(TWI_vect)
             twi_rx_buffer_index = 0;
         }
         break;
-
         case TW_SR_DATA_NACK:       // data received, NACK returned
         case TW_SR_GCALL_DATA_NACK: // general call data received, NACK returned
         {
@@ -273,7 +274,8 @@ ISR(TWI_vect)
         // SLAVE TRANSMITTER
         case TW_ST_SLA_ACK: // SLA+R received, ACK returned
         case TW_ST_ARB_LOST_SLA_ACK: // arbitration lost in SLA+RW, SLA+R received, ACK returned
-        {            
+        {
+            
             twi_state = TWI_STX;
             twi_tx_buffer_index = 0;
             twi_tx_buffer_length = 0;

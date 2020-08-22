@@ -2,9 +2,13 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-icaro\i2cdevlib.c
+icaro\timer\timer.c
 
-icaro\twi.c
+icaro\twi\i2cdevlib.c
 
-icaro\wire.c
+icaro\twi\twi.c
+
+icaro\uart\uart.c
+
+library.c
 

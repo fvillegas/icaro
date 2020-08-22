@@ -1,4 +1,4 @@
-icaro/wire.d icaro/wire.o: ../icaro/wire.c \
+icaro/twi/i2cdevlib.d icaro/twi/i2cdevlib.o: ../icaro/twi/i2cdevlib.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
@@ -6,7 +6,8 @@ icaro/wire.d icaro/wire.o: ../icaro/wire.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
- ../icaro/twi.h ../icaro/wire.h
+ ../icaro/twi/../timer/timer.h ../icaro/twi/twi.h \
+ ../icaro/twi/i2cdevlib.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
 
@@ -22,6 +23,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
 
-../icaro/twi.h:
+../icaro/twi/../timer/timer.h:
 
-../icaro/wire.h:
+../icaro/twi/twi.h:
+
+../icaro/twi/i2cdevlib.h:
